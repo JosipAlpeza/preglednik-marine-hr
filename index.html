@@ -23,7 +23,36 @@
             margin: 0;
         }
         </style>
-        <title></title>
+        <title>Preglednik - Marine Republike Hrvatske</title>
+                <style>
+    .leaflet-control.abstract {
+        background-color: rgba(255, 255, 255, 0.5); /* prozirnost */
+        color: black;
+        font-family: 'PT Sans', sans-serif;
+        font-size: 10pt;
+        text-align: justify;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    .leaflet-control.abstractUncollapsed {
+        background-color: rgba(255, 255, 255, 0.95); /* manja prozirnost */
+        font-family: 'PT Sans', sans-serif;
+        font-size: 9pt;
+        max-width: 400px; /* SMANJI OVU VRIJEDNOST ako želiš manji okvir */
+        max-height: 70vh; /* maksimalna visina - viewport height */
+        overflow-y: auto;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.4);
+    }
+</style>
+
     </head>
     <body>
         <div id="map">
@@ -52,13 +81,12 @@
         var map = L.map('map', {
             zoomControl:false, maxZoom:18, minZoom:5
         })
-	var Esri_WorldImagery = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-   		 maxZoom: 18,
-    		attribution: 'Tiles © Esri'
-	}).addTo(map);
+        var Esri_WorldImagery = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 18,
+        attribution: 'Tiles © Esri'
+        }).addTo(map);
 
         var hash = new L.Hash(map);
-        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         // remove popup's row if "visible-with-data"
         function removeEmptyRowsFromPopupContent(content, feature) {
@@ -382,7 +410,7 @@
         rotationOrigin: 'center center',
         icon: L.icon({
             iconUrl: 'markers/Marine_4.svg',
-            iconSize: [26.599999999999998, 26.599999999999998]
+            iconSize: [45, 45]
         }),
                 interactive: true,
             }
@@ -412,7 +440,6 @@
         bounds_group.addLayer(layer_Marine_4);
         cluster_Marine_4.addTo(map);
         var overlaysTree = [
-            {label: '<img src="legend/Marine_4.png" /> Marine', layer: cluster_Marine_4},
             {label: '<img src="legend/upanije_3.png" /> Županije', layer: layer_upanije_3},
             {label: '<img src="legend/Obalnacrta_2.png" /> Obalna crta', layer: layer_Obalnacrta_2},
             {label: '<img src="legend/Kopnenagranica_1.png" /> Kopnena granica', layer: layer_Kopnenagranica_1},
@@ -428,11 +455,14 @@
         });
         lay.addTo(map);
         setBounds();
-        map.addControl(new L.Control.Search({
-            layer: cluster_Marine_4,
-            initial: false,
-            hideMarkerOnCollapse: true,
-            propertyName: 'Naziv'}));
+               map.addControl(new L.Control.Search({
+    layer: cluster_Marine_4,
+    initial: false,
+    hideMarkerOnCollapse: true,
+    propertyName: 'Naziv',
+    textPlaceholder: 'Pretraži marine po nazivu'
+}));
+
         document.getElementsByClassName('search-button')[0].className +=
          ' fa fa-binoculars';
         </script>
